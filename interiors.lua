@@ -1,3 +1,94 @@
+local Doors = {
+    [2642457609] = 0, -- Valentine bank, front entrance, left door
+    [3886827663] = 0, -- Valentine bank, front entrance, right door
+    [1340831050] = 0, -- Valentine bank, gate to tellers
+    [576950805]  = 0, -- Valentine bank, vault door
+    [3718620420] = 0, -- Valentine bank, door behind tellers
+    [2343746133] = 0, -- Valentine bank, door to backrooms
+    [2307914732] = 0, -- Valentine bank, back door
+    [334467483]  = 0, -- Valentine bank, door to hall in vault antechamber
+    [1733501235] = 0, -- Saint Denis bank, west entrance, right door
+    [2158285782] = 0, -- Saint Denis bank, west entrance, left door
+    [1634115439] = 0, -- Saint Denis bank, manager's office, right door
+    [965922748]  = 0, -- Saint Denis bank, manager's office, left door
+    [2817024187] = 0, -- Saint Denis bank, north entrance, left door
+    [2089945615] = 0, -- Saint Denis bank, north entrance, right door
+    [1751238140] = 0, -- Saint Denis bank, vault
+    [531022111]  = 0, -- Blackwater bank, entrance
+    [2817192481] = 0, -- Blackwater bank, office
+    [2117902999] = 0, -- Blackwater bank, teller gate
+    [1462330364] = 0, -- Blackwater bank, vault
+    [3317756151] = 0, -- Rhodes bank, front entrance, left door
+    [3088209306] = 0, -- Rhodes bank, front entrance, right door
+    [2058564250] = 0, -- Rhodes bank, door to backrooms
+    [1634148892] = 0, -- Rhodes bank, teller gate
+    [3483244267] = 0, -- Rhodes bank, vault
+    [3142122679] = 1, -- Rhodes bank, back entrance
+    [2446974165] = 0, -- Rhodes saloon, bath room door
+    [340151973]  = 0, -- Saint Denis theatre, right door
+    [544106233]  = 0, -- Saint Denis theatre, left door
+    [1457151494] = 0, -- Saint Denis theatre, behind counter, right door
+    [1688533403] = 0, -- Saint Denis theatre, behind counter, left door
+    [1239033969] = 0, -- Farm house outside emerald ranch, bedroom door
+    [3074790964] = 0, -- Geddes ranch house
+    [3101287960] = 0, -- Armadillo bank, front door
+    [3550475905] = 0, -- Armadillo bank, teller gate
+    [1366165179] = 0, -- Armadillo bank, back door
+    [772977516]  = 0, -- Slaver catcher house, north door
+    [527767089]  = 0, -- Slaver catcher house, south door
+    [3804893186] = 0, -- Saint Denis tailor, dressing room
+    [2432590327] = 0, -- Rhodes general store, dressing room
+    [3554893730] = 0, -- Valentine general store, dressing room
+    [94437577]   = 0, -- Strawberry general store, dressing room
+    [3277501452] = 0, -- Blackwater tailor, dressing room
+    [3208189941] = 0, -- Tumbleweed tailor, dressing room
+    [3142465793] = 0, -- Wallace Station general store, dressing room
+    [1962482653] = 0, -- River boat, upper deck vault room, east door
+    [2181772801] = 0, -- River boat, upper deck vault room, west door
+    [1275379652] = 0, -- River boat, upper deck cabin, east door
+    [4267779198] = 0, -- River boat, upper deck cabin, west door
+    [1509055391] = 0, -- River boat, upper deck cabin, south doors, right door
+    [2811033299] = 0, -- River boat, upper deck cabin, south doors, left door
+    [586229709]  = 0, -- Saint Denis doctor, door between store and waiting room
+    [1707768866] = 0, -- Galarie Laurent, manager's office
+    [1657401918] = 1, -- Annesburg sheriff's office, left cell
+    [1502928852] = 1, -- Annesburg sheriff's office, right cell
+    [202296518]  = 0, -- Six Point Cabin
+    [3782668011] = 0, -- Aberdeen Pig Farm south door
+    [1423877126] = 0, -- Tumbleweed bath room door
+    [3013877606] = 0, -- Tumbleweed bath, side room door
+    [553939906]  = 0, -- Shady Belle, upstairs, right door
+    [357129292]  = 0, -- Shady Belle, upstairs, left door
+    [1523300673] = 0, -- Blackwater bath, north door
+    [1915401053] = 0, -- Saint Denis tram station, east counter door
+    [187523632]  = 0, -- Saint Denis tram station, west counter door
+    [831345624]  = 0, -- Tumbleweed jail cell
+    [2984805596] = 0, -- Tumbleweed jail, left cell door
+    [2677989449] = 0, -- Tumbleweed jail, right cell door
+    [1711767580] = 0, -- Saint Denis jail cell
+    [193903155]  = 0, -- Valentine jail cell
+    [295355979]  = 0, -- Valentine jail cell
+    [1878514758] = 0, -- Rhodes jail cell
+    [2514996158] = 0, -- Blackwater jail cell
+    [2167775834] = 0, -- Blackwater jail cell
+    [902070893]  = 0, -- Strawberry jail cell
+    [1207903970] = 0, -- Strawberry jail cell
+    [4016307508] = 0, -- Armadillo jail cell
+    [4235597664] = 0, -- Amradillo jail cell
+}
+
+-- Função principal para configurar as portas
+CreateThread(function()
+    for door, state in pairs(Doors) do
+        -- Registra a porta no sistema se ainda não estiver registrada
+        if not IsDoorRegisteredWithSystem(door) then
+            Citizen.InvokeNative(0xD99229FE93B46286, door, 1, 1, 0, 0, 0, 0)
+        end
+        -- Define o estado da porta (0 = destrancada/aberta, 1 = trancada)
+        DoorSystemSetDoorState(door, state)
+    end
+end)
+
 local isLoaded = false
 
 function ActivateInteriorEntitySets(interior, name, sets)
@@ -520,7 +611,7 @@ Citizen.CreateThread(function()
 			"pro_worker_jack_bed_ambient"
 		})
 
-		ActivateInteriorEntitySets(24834, "Shady Belle", {
+		--[[ActivateInteriorEntitySets(24834, "Shady Belle", {
 			"shb_arthurpickup_bookforage",
 			"shb_arthurpickup_bookhunting",
 			"shb_p_ammo01",
@@ -537,7 +628,7 @@ Citizen.CreateThread(function()
 			"shb_upg_john_rug",
 			"shb_upg_skull_gator",
 			"shb_upg_skull_ram"
-		})
+		})]]
 
 		ActivateInteriorEntitySets(26626, "Galarie", {
 			"new_art_photos_pre_RC_Mason",
@@ -702,7 +793,6 @@ RequestImap(135886022)  -- Valentine -- Sign in front of General Store
 --------------------------------                                   ############# -- Valentine Cemetery                   -- ###############                                       ----------------------
 RemoveImap(-391187090)  -- Grass on grave Valentine cemetery
 RemoveImap(-1902184438) -- dirt pile from grave dug Valentine cemetery
-RemoveImap(1886602884)  -- pre-grave dug grass over
 RemoveImap(740012805)   -- dirt pile from grave dug Valentine cemetery
 RemoveImap(1236921921)  -- dirt pile from grave dug Valentine cemetery
 RemoveImap(1963724330)  -- pre-grave grass... if graves present, remove
@@ -1063,12 +1153,12 @@ RequestImap(-1229109520) -- Green Plants
 ------------------------------------- #### END OF GREY ESTATES ####
 
 ------------------------------------- Blackwater Town Hall
-RequestImap(-2082201137)  --Blackwater Ground Town Hall
+--RequestImap(-2082201137)  --Blackwater Ground Town Hall
 --RequestImap(1343343014)  --Blackwater Town Hall Addons Construction
 --RequestImap(739412171)  -- Two Boards in front of city hall (Goes with Town Hall Construction)
 --RequestImap(-5339556)  --Bank Under Construction
 RequestImap(1641449717)
---RequestImap(1258244391)  -- something
+RequestImap(1258244391)  -- something
 RequestImap(-501793326)  -- construction
 RequestImap(1490756544)  -- crates on main st
 RequestImap(-753454183)  -- trapper
@@ -1343,7 +1433,7 @@ RequestImap(-1617847332) -- sign outside tent version 4
 --RequestImap(-175048740)  -- SE smoke
 --RequestImap(-482127039)  -- SE smoke
 ----------------------------------------- ### END ARMADILLO FIRES ###
-RemoveImap(1111220101) -- piratas 
+
 --------------------- Hole/cabin east of emerald station
 RequestImap(-574996782)  -- house shell/front enterence
 RequestImap(1169511062)  -- house interior
@@ -1357,7 +1447,6 @@ RequestImap(-1377975054) -- ground trail to house
 
 --------------------- Valentine extras
 RequestImap(886997475)   -- bounty board
--- RequestImap(325677491) --  white sign gunshop
 RequestImap(1936501508)  -- big old sign gunshop
 -- RequestImap(-2083943324) -- debris infront of liqour
 RequestImap(610256856)   -- debris and remodle next to liqour
@@ -2022,13 +2111,13 @@ RemoveImap(-2093605706)
 -- RequestImap(945532872)
 -- RequestImap(-890895654)
 -- RequestImap(1953646620)
---RemoveImap(1299817544) --- gumstore sw
-RemoveImap(1204787444) --- gumstore sw
-RemoveImap(66523468) --- gumstore sw
---RequestImap(124787444)
+RequestImap(1299817544)
+--RequestImap(1204787444)
+RequestImap(66523468)
+RequestImap(124787444)
 -- RequestImap(2040259178)
 -- RequestImap(1190076410)
---RemoveImap(1598834669) --- gumstore sw
+RequestImap(1598834669)
 -- RequestImap(-1106517275)
 -- RequestImap(-1986209836)
 -- RequestImap(1525054056)
@@ -2043,7 +2132,8 @@ RequestImap(966418260)
 -- RequestImap(2029194243)
 -- RequestImap(-1125782227)
 -- RequestImap(-372970556)
---RemoveImap(1947806010) --- gumstore sw
+RequestImap(1947806010)
+RequestImap(1749008611)
 -- RequestImap(2111695903)
 -- RequestImap(-1947695052)
 -- RequestImap(-1559513478)
@@ -2056,6 +2146,7 @@ RequestImap(966418260)
 RequestImap(-630275010)
 -- RequestImap(-164693058)
 -- RequestImap(118201723)
+RequestImap(458453080)
 -- RequestImap(-1385360243)
 -- RequestImap(-1288790000)
 -- RequestImap(758066107)
@@ -2065,6 +2156,7 @@ RequestImap(-630275010)
 -- RequestImap(2056603274)
 -- RequestImap(898257133)
 -- RequestImap(-380287375)
+RequestImap(281153830)
 -- RequestImap(1739101350)
 -- RequestImap(-634291786)
 -- RequestImap(-1047158045)
@@ -2073,6 +2165,7 @@ RequestImap(42081460)
 -- RequestImap(504746979)
 -- RequestImap(138913863)
 RequestImap(-90108678)
+-- RequestImap(1258244391)
 --RequestImap(-501793326)
 -- RequestImap(1490756544)
 RequestImap(-753454183)
@@ -2573,8 +2666,8 @@ RequestImap(45121961) --SD Boad
 RequestImap(943998860)   --SD Boad
 RequestImap(1056170594)  --SD Boad
 RequestImap(-873881483)  --SD Boad
-RequestImap(881979872)   --SD Boad 
-RequestImap(1157695860) -- SD Portas
+RequestImap(881979872)   --SD Boad
+RequestImap(1157695860)
 RequestImap(1859948183)  --SD Boad
 RequestImap(-1688366042) --SD Boad
 -- RequestImap(-929277449)
@@ -2646,7 +2739,7 @@ RequestImap(1871261290)
 -- RequestImap(1205820933)
 -- RequestImap(195206081)
 -- RequestImap(1355914142)
---RemoveImap(1659037747) --- gumstore sw
+RequestImap(1659037747)
 RequestImap(165972019)
 -- RequestImap(-1036688493)
 -- RequestImap(-30157790)
@@ -2668,7 +2761,7 @@ RequestImap(-483649675)
 RequestImap(-1512794226)
 RequestImap(146172383)
 -- RequestImap(876228895)
---RemoveImap(1417317522) --- gumstore sw
+RequestImap(1417317522)
 -- RequestImap(1417687142)
 -- RequestImap(-2035101386)
 -- RequestImap(1520435387)
@@ -2749,7 +2842,7 @@ RequestImap(2094371528) --minen camp wüste
 -- RequestImap(-596115807)
 -- RequestImap(1557698400)
 -- RequestImap(-1484676996)
---RemoveImap(192248329) --- gumstore sw
+RequestImap(192248329)
 -- RequestImap(472339111)
 -- RequestImap(-262371610)
 -- RequestImap(1123990218)
@@ -2772,12 +2865,6 @@ RequestImap(2094371528) --minen camp wüste
 -- RequestImap(894787561)
 -- RequestImap(-689352221)
 -- RequestImap(1722569012)
--- RequestImap(-451832572)
--- RequestImap(-1349539327)
--- RequestImap(-1640200357)
--- RequestImap(-2127665186)
--- RequestImap(1854980771)
--- RequestImap(1513363974)
 -- RequestImap(-1280884206)
 -- RequestImap(-758463889)
 -- RequestImap(-1116430120)
@@ -2832,7 +2919,7 @@ RequestImap(227706189)
 -- RequestImap(1419819915)
 -- RequestImap(621272158)
 -- RequestImap(422167750)
---RemoveImap(-1403908542) --- gumstore sw
+RequestImap(-1403908542)
 -- RequestImap(-2116659774)
 -- RequestImap(-893624314)
 -- RequestImap(985448695)
@@ -3086,7 +3173,7 @@ RequestImap(124419381)
 RequestImap(-1906713208) -- Blackwater -- Tree's all around Blackwater
 RequestImap(-1631536545) -- Blackwater -- Grass around Construction by Foreman Building
 RemoveImap(-1675593451)  -- Blackwater -- Lone Rock? next to Foremans building LOD
---RemoveImap(-2082201137)  -- Blackwater -- Town Hall -- Ground
+RemoveImap(-2082201137)  -- Blackwater -- Town Hall -- Ground
 RemoveImap(1343343014)   -- Blackwater -- Town Hall -- Addons Construction
 RemoveImap(739412171)    -- Blackwater -- Town Hall -- General Clutter at the Docks
 RemoveImap(-5339556)     -- Blackwater -- Town Hall -- Bank Under Construction
@@ -3095,45 +3182,19 @@ RequestImap(-843384101)  -- Blackwater -- Town Hall -- City Hall & Docks Model T
 RemoveImap(1649548630)   -- Blackwater -- Town Hall -- Grass on Right side of City Hall
 --RequestImap(-150795123)   -- Blackwater -- Town Hall -- Trench Low Detail Ground
 RemoveImap(1173561253)   -- Blackwater -- Town Hall -- Tents Beside City Hall Near Trech
-RemoveImap(1470738186)  -- Blackwater -- Town Hall -- Adds Town Hall Pre-Construcion Ground (Ground does not mesh well with contrustion IPLs)
-RemoveImap(-1632348233) -- Blackwater -- Town Hall -- Adds Trees and Grass (DO NOT USE WITH CONSTRUCTION IPL, WILL MERGE VISUALS)
+RequestImap(1470738186)  -- Blackwater -- Town Hall -- Adds Town Hall Pre-Construcion Ground (Ground does not mesh well with contrustion IPLs)
+RequestImap(-1632348233) -- Blackwater -- Town Hall -- Adds Trees and Grass (DO NOT USE WITH CONSTRUCTION IPL, WILL MERGE VISUALS)
+RemoveImap(1173561253)   -- Blackwater -- Town Hall -- Tents Beside City Hall Near Trech
 RemoveImap(1641449717)   -- Blackwater -- Town Hall -- Grass along path near tents
 -- End of Blackwater Town Hall
---------------------- Strawbery Lumberjack camp
--- RemoveImap(-362883443) --Low LOD bullshit
--- RemoveImap(-1947695052) --Logs and camp, but, low LOD on bootup
--- RequestImap(767505137) --Stumps
---RequestImap(588062093) --More Stumps
-RequestImap(-125588314) --Trees
---RequestImap(-1340001373) -- More Trees
---RequestImap(-2116397290) --Surronding Trees
---RequestImap(-922917541) --More Surronding trees
-RequestImap(204481342) --Even More Trees
--- RequestImap(1202346365) --Grass around cabin
--- RequestImap(1749008611) --Camp with Logs and a shitter
-RequestImap(2111695903) --Hitching post and logs
-RequestImap(118201723) --Strawbery Lumberjack camp - Fire camp
-RequestImap(458453080) --Strawbery Lumberjack camp - Fire camp
-RequestImap(1749008611) --Strawbery Lumberjack camp - All camp
--- RequestImap(758066107) --Strawbery Lumberjack - building stuff inside cabin
-RequestImap(-1995054197) --Strawbery Lumberjack - Good Wood cabin
--- --RequestImap(-1623126047) --Strawbery Lumberjack - trash Wood cabin
--- --RequestImap(1943484686) --Strawbery Lumberjack - trash inside cabin 
--- --RequestImap(2056603274) --Strawbery Lumberjack - burn cabin
--- RequestImap(898257133) --Strawbery Lumberjack - Toit cabin
--- RequestImap(94051462) --Strawbery Lumberjack - Tente & Dead Trees
--- --RequestImap(663898893) --Strawbery Lumberjack - Camp stuff ItBox
--- --RequestImap(971859818) --Strawbery Lumberjack - Camp stuff ItBox
-RequestImap(281153830) --Strawbery Lumberjack - Wood Train Station
--- RequestImap(1739101350) --Strawbery Lumberjack - Wood Train Station inside working
--- RequestImap(-1047158045) --Logs
--- --RequestImap(42081460) --Strawbery Lumberjack - Wood cloture bad 1
--- RequestImap(870580095) --Strawbery Lumberjack - Wood cloture good
--- RequestImap(504746979) --Strawbery Lumberjack - Wood cloture bad 2
--- RequestImap(-90108678) --Strawbery Lumberjack - Wood cloture ruined
 
-RemoveImap(1644962309) -- barco pirata
-RemoveImap(1372565859) -- barco pirata
-RemoveImap(-123674550) -- barco pirata
-RemoveImap(1111220101) -- barco pirata
+-- COVAS ROUBO 
 
+RequestImap(-451832572)
+RequestImap(325677491)
+RequestImap(-1349539327)
+RequestImap(-1640200357)
+RequestImap(1886602884)
+RequestImap(1513363974)
+RequestImap(1854980771)
+RequestImap(-2127665186)
